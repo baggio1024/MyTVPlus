@@ -81,6 +81,17 @@ jobs:
       - name: Build for Cloudflare
         run: pnpm run build:cloudflare
 
+      - name: Debug build output
+        run: |
+          echo "=== Build Output Structure ==="
+          ls -la
+          echo "=== .open-next directory ==="
+          ls -la .open-next/ 2>/dev/null || echo ".open-next not found"
+          echo "=== .open-next/assets directory ==="
+          ls -la .open-next/assets/ 2>/dev/null || echo ".open-next/assets not found"
+          echo "=== .next directory ==="
+          ls -la .next/ 2>/dev/null || echo ".next not found"
+
       - name: Clean up large files
         run: |
           echo "Cleaning up large cache files..."
