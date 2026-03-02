@@ -78,8 +78,21 @@ jobs:
 
 
 
+      - name: Clean up large cache files before build
+        run: |
+          rm -rf .next/cache/webpack
+          rm -rf .next/static/cache
+          echo "Cache cleanup completed"
+
       - name: Build for Cloudflare
         run: pnpm run build:cloudflare
+
+      - name: Optimize build output
+        run: |
+          # Remove any remaining large cache files
+          find .next -name "*.pack" -type f -delete 2>/dev/null || true
+          find .next -name "0.pack" -type f -delete 2>/dev/null || true
+          echo "Build optimization completed"
 
       - name: Install Wrangler for D1 migrations
         run: pnpm add -g wrangler@4.60.0

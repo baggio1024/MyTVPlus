@@ -10,6 +10,8 @@ const config: OpenNextConfig = {
       tagCache: 'dummy',
       queue: 'dummy',
     },
+    // Reduce bundle size by disabling code splitting
+    bundleFormat: 'esm',
   },
   edgeExternals: [
     'node:crypto',
