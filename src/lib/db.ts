@@ -99,4 +99,53 @@ export const db = {
   async setAdminConfig(config: AdminConfig): Promise<void> {
     return storage.setAdminConfig(config);
   },
+
+  async getUserInfoV2(userName: string): Promise<{
+    role: 'owner' | 'admin' | 'user';
+    banned: boolean;
+    tags?: string[];
+    oidcSub?: string;
+    enabledApis?: string[];
+    created_at: number;
+    playrecord_migrated?: boolean;
+    favorite_migrated?: boolean;
+    skip_migrated?: boolean;
+    last_movie_request_time?: number;
+    email?: string;
+    emailNotifications?: boolean;
+  } | null> {
+    if (storage.getUserInfoV2) {
+      return storage.getUserInfoV2(userName);
+    }
+    return null;
+  },
+
+  async getUserEmail(userName: string): Promise<string | null> {
+    if (storage.getUserEmail) {
+      return storage.getUserEmail(userName);
+    }
+    return null;
+  },
+
+  async setUserEmail(userName: string, email: string): Promise<void> {
+    if (storage.setUserEmail) {
+      return storage.setUserEmail(userName, email);
+    }
+  },
+
+  async getEmailNotificationPreference(userName: string): Promise<boolean> {
+    if (storage.getEmailNotificationPreference) {
+      return storage.getEmailNotificationPreference(userName);
+    }
+    return false;
+  },
+
+  async setEmailNotificationPreference(
+    userName: string,
+    enabled: boolean
+  ): Promise<void> {
+    if (storage.setEmailNotificationPreference) {
+      return storage.setEmailNotificationPreference(userName, enabled);
+    }
+  },
 };
