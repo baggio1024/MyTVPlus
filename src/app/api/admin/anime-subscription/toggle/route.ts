@@ -34,7 +34,7 @@ export async function PUT(req: NextRequest) {
     }
 
     config.AnimeSubscriptionConfig.Enabled = enabled;
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
 
     return NextResponse.json({ success: true, enabled });
   } catch (error: any) {

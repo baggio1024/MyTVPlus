@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       };
     }
 
-    await db.saveAdminConfig(adminConfig);
+    await db.setAdminConfig(adminConfig);
 
     // 更新内存缓存
     await setCachedConfig(adminConfig);

@@ -6,7 +6,7 @@ import { checkAnimeSubscriptions } from '@/lib/anime-subscription';
 import { getConfig, refineConfig } from '@/lib/config';
 import { db, getStorage } from '@/lib/db';
 import { EmailService } from '@/lib/email.service';
-import { FavoriteUpdate,getBatchFavoriteUpdateEmailTemplate } from '@/lib/email.templates';
+import { FavoriteUpdate, getBatchFavoriteUpdateEmailTemplate } from '@/lib/email.templates';
 import { fetchVideoDetail } from '@/lib/fetchVideoDetail';
 import { refreshLiveChannels } from '@/lib/live';
 import { startOpenListRefresh } from '@/lib/openlist-refresh';
@@ -113,7 +113,7 @@ async function refreshAllLiveChannels() {
   await Promise.all(refreshPromises);
 
   // 保存配置
-  await db.saveAdminConfig(config);
+  await db.setAdminConfig(config);
 }
 
 async function refreshConfig() {
@@ -147,7 +147,7 @@ async function refreshConfig() {
       config.ConfigFile = decodedContent;
       config.ConfigSubscribtion.LastCheck = new Date().toISOString();
       config = refineConfig(config);
-      await db.saveAdminConfig(config);
+      await db.setAdminConfig(config);
 
       // 清除短剧视频源缓存（因为配置文件可能包含新的视频源）
       try {

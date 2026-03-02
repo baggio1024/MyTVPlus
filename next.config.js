@@ -86,6 +86,14 @@ const nextConfig = {
         ...config.resolve.alias,
         'better-sqlite3': false,
       };
+
+      // Provide polyfills for Node.js modules in client bundle
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        net: false,
+        tls: false,
+        crypto: false,
+      };
     }
 
     // For Cloudflare build, exclude Node.js native modules

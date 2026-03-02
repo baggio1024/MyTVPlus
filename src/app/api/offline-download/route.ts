@@ -411,4 +411,4 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';

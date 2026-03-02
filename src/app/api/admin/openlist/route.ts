@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
           DisableVideoPreview: DisableVideoPreview || false,
         };
 
-        await db.saveAdminConfig(adminConfig);
+        await db.setAdminConfig(adminConfig);
 
         return NextResponse.json({
           success: true,
@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
         DisableVideoPreview: DisableVideoPreview || false,
       };
 
-      await db.saveAdminConfig(adminConfig);
+      await db.setAdminConfig(adminConfig);
 
       return NextResponse.json({
         success: true,

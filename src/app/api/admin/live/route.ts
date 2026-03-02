@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 保存配置
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
 
     return NextResponse.json({ success: true });
   } catch (error) {

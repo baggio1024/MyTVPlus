@@ -273,7 +273,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 持久化到存储
-    await db.saveAdminConfig(adminConfig);
+    await db.setAdminConfig(adminConfig);
 
     // 清除短剧视频源缓存（因为视频源发生了变动）
     try {

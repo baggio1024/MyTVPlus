@@ -20,7 +20,7 @@ import {
   updateScanTaskProgress,
 } from '@/lib/scan-task';
 import { parseSeasonFromTitle } from '@/lib/season-parser';
-import { getTVSeasonDetails,searchTMDB } from '@/lib/tmdb.search';
+import { getTVSeasonDetails, searchTMDB } from '@/lib/tmdb.search';
 
 /**
  * 获取根目录列表（兼容新旧配置）
@@ -87,7 +87,7 @@ async function migrateToMultiRoot(openListConfig: NonNullable<AdminConfig['OpenL
   const config = await getConfig();
   config.OpenListConfig!.RootPaths = [oldRootPath];
   delete config.OpenListConfig!.RootPath;
-  await db.saveAdminConfig(config);
+  await db.setAdminConfig(config);
 
   console.log('[OpenList Migration] 配置迁移完成');
 }
@@ -245,7 +245,7 @@ async function performScan(
 
     while (true) {
       const listResponse = await client.listDirectory(rootPath, currentPage, pageSize, true);
-	  console.log(listResponse);
+      console.log(listResponse);
       if (listResponse.code !== 200) {
         throw new Error('OpenList 列表获取失败5');
       }
@@ -422,7 +422,7 @@ async function performScan(
     const config = await getConfig();
     config.OpenListConfig!.LastRefreshTime = Date.now();
     config.OpenListConfig!.ResourceCount = Object.keys(metaInfo.folders).length;
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
 
     completeScanTask(taskId, {
       total: folders.length,

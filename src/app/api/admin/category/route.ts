@@ -172,7 +172,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 持久化到存储
-    await db.saveAdminConfig(adminConfig);
+    await db.setAdminConfig(adminConfig);
 
     return NextResponse.json(
       { ok: true },

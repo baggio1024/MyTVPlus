@@ -411,7 +411,7 @@ export async function checkAnimeSubscriptions() {
 
   // 5. 保存配置并刷新缓存
   if (configChanged) {
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
     await setCachedConfig(config);
     console.log('[AnimeSubscription] 配置已更新并保存');
   }

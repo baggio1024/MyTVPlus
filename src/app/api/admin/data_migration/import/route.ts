@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
 
     // 导入管理员配置
     importData.data.adminConfig = configSelfCheck(importData.data.adminConfig);
-    await db.saveAdminConfig(importData.data.adminConfig);
+    await db.setAdminConfig(importData.data.adminConfig);
     await setCachedConfig(importData.data.adminConfig);
 
     // 清除短剧视频源缓存（因为导入的配置可能包含不同的视频源）

@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     // 更新配置中的资源数量
     if (config.OpenListConfig) {
       config.OpenListConfig.ResourceCount = Object.keys(metaInfo.folders).length;
-      await db.saveAdminConfig(config);
+      await db.setAdminConfig(config);
     }
 
     return NextResponse.json({

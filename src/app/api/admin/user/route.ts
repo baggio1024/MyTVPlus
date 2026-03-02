@@ -479,7 +479,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 将更新后的配置写入数据库
-    await db.saveAdminConfig(adminConfig);
+    await db.setAdminConfig(adminConfig);
 
     return NextResponse.json(
       { ok: true },

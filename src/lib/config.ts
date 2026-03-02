@@ -358,14 +358,14 @@ export async function getConfig(): Promise<AdminConfig> {
         // 数据库中确实没有配置，首次初始化并保存
         console.log('首次初始化配置');
         adminConfig = await getInitConfig("");
-        await db.saveAdminConfig(adminConfig);
+        await db.setAdminConfig(adminConfig);
       }
     }
 
     // 检查是否有旧格式Emby配置需要迁移
     const needsEmbyMigration = adminConfig.EmbyConfig &&
-                                adminConfig.EmbyConfig.ServerURL &&
-                                !adminConfig.EmbyConfig.Sources;
+      adminConfig.EmbyConfig.ServerURL &&
+      !adminConfig.EmbyConfig.Sources;
 
     adminConfig = configSelfCheck(adminConfig);
     cachedConfig = adminConfig;
@@ -373,7 +373,7 @@ export async function getConfig(): Promise<AdminConfig> {
     // 如果进行了Emby配置迁移，保存到数据库
     if (!dbReadFailed && needsEmbyMigration) {
       try {
-        await db.saveAdminConfig(adminConfig);
+        await db.setAdminConfig(adminConfig);
         console.log('[Config] Emby配置迁移已保存到数据库');
       } catch (error) {
         console.error('[Config] 保存迁移后的配置失败:', error);
@@ -394,7 +394,7 @@ export async function getConfig(): Promise<AdminConfig> {
           await db.migrateUsersFromConfig(adminConfig);
           // 迁移完成后，清空配置中的用户列表并保存
           adminConfig.UserConfig.Users = [];
-          await db.saveAdminConfig(adminConfig);
+          await db.setAdminConfig(adminConfig);
           cachedConfig = adminConfig;
           console.log('用户自动迁移完成');
         }
@@ -572,7 +572,7 @@ export async function resetConfig() {
   }
   const adminConfig = await getInitConfig(originConfig.ConfigFile, originConfig.ConfigSubscribtion);
   cachedConfig = adminConfig;
-  await db.saveAdminConfig(adminConfig);
+  await db.setAdminConfig(adminConfig);
 
   return;
 }

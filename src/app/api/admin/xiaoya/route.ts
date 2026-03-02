@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         DisableVideoPreview: configData.DisableVideoPreview || false,
       };
 
-      await db.saveAdminConfig(config);
+      await db.setAdminConfig(config);
 
       return NextResponse.json({ success: true, message: '保存成功' });
     }

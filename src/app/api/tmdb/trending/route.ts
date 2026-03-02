@@ -390,4 +390,4 @@ async function getDoubanBannerContent(): Promise<{ code: number; list: any[] }> 
   }
 }
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';

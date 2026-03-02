@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: '未知操作' }, { status: 400 });
     }
 
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
@@ -130,4 +130,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';

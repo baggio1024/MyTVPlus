@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
     };
 
     // 写入数据库
-    await db.saveAdminConfig(adminConfig);
+    await db.setAdminConfig(adminConfig);
 
     return NextResponse.json(
       {

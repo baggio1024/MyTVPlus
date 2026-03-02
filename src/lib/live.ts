@@ -45,7 +45,7 @@ export async function getCachedLiveChannels(
       return null;
     }
     liveInfo.channelNumber = channelNum;
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
   }
   return cachedLiveChannels[key] || null;
 }

@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     const checkedConfig = configSelfCheck(newConfig);
 
     // 保存到数据库
-    await db.saveAdminConfig(checkedConfig);
+    await db.setAdminConfig(checkedConfig);
 
     // 更新缓存
     await setCachedConfig(checkedConfig);

@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
     };
 
     config.AnimeSubscriptionConfig.Subscriptions.push(newSubscription);
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
 
     return NextResponse.json(newSubscription);
   } catch (error: any) {

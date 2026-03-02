@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     // 迁移完成后，清空配置中的用户列表
     adminConfig.UserConfig.Users = [];
-    await db.saveAdminConfig(adminConfig);
+    await db.setAdminConfig(adminConfig);
 
     // 更新配置缓存
     const { setCachedConfig } = await import('@/lib/config');

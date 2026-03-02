@@ -63,7 +63,7 @@ export async function PUT(
 
     subscription.updatedAt = Date.now();
 
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
 
     return NextResponse.json(subscription);
   } catch (error: any) {
@@ -99,7 +99,7 @@ export async function DELETE(
     }
 
     subscriptions.splice(index, 1);
-    await db.saveAdminConfig(config);
+    await db.setAdminConfig(config);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
