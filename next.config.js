@@ -23,6 +23,10 @@ const nextConfig = {
   // Cloudflare Pages 需要使用 Edge Runtime
   ...(isCloudflare && {
     distDir: '.next',
+    // 为所有页面设置 Edge Runtime
+    serverRuntimeConfig: {
+      // 仅在服务器端运行的代码将使用 Edge Runtime
+    },
   }),
 
   // Uncoment to add domain whitelist

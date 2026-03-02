@@ -410,3 +410,5 @@ export async function PUT(request: NextRequest) {
     );
   }
 }
+
+export const runtime = 'edge';

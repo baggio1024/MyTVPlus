@@ -389,3 +389,5 @@ async function getDoubanBannerContent(): Promise<{ code: number; list: any[] }> 
     return { code: 500, list: [] };
   }
 }
+
+export const runtime = 'edge';
