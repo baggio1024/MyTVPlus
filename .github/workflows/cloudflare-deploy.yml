@@ -87,6 +87,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: mytvplus
-          directory: .vercel/output/static
+          directory: .open-next/assets
           wranglerConfig: wrangler.toml
           branch: main
