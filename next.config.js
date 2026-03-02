@@ -85,10 +85,6 @@ const nextConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         'better-sqlite3': false,
-        '@/lib/d1.db': false,
-        '@/lib/d1-adapter': false,
-        '@/lib/postgres.db': false,
-        '@/lib/postgres-adapter': false,
       };
     }
 
