@@ -74,16 +74,6 @@ const nextConfig = {
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
 
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      net: false,
-      tls: false,
-      crypto: false,
-      http: false,
-      https: false,
-      zlib: false,
-    };
-
     // Exclude better-sqlite3 and Postgres modules from client-side bundle
     if (!isServer) {
       config.externals = config.externals || [];
@@ -99,6 +89,23 @@ const nextConfig = {
         '@/lib/d1-adapter': false,
         '@/lib/postgres.db': false,
         '@/lib/postgres-adapter': false,
+      };
+    }
+
+    // For Cloudflare build, exclude Node.js native modules
+    if (isCloudflare) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false,
+        child_process: false,
+        net: false,
+        tls: false,
+        crypto: false,
+        http: false,
+        https: false,
+        zlib: false,
       };
     }
 
