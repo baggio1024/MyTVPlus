@@ -1,7 +1,11 @@
-name = "moontv-plus"
+name = "mytvplus"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 main = ".open-next/worker.js"
+
+# Node.js 版本配置
+# @opennextjs/cloudflare 1.x 需要 Node.js 18+
+node_compat = true
 
 # 静态资源配置
 # Cloudflare Workers Assets 用于服务静态文件

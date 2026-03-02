@@ -35,7 +35,7 @@ const nextConfig = {
     ],
   },
 
-  webpack(config, { isServer, isTarget }) {
+  webpack(config, { isServer }) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg')
@@ -71,16 +71,6 @@ const nextConfig = {
       crypto: false,
     };
 
-    // For Cloudflare, disable code splitting and reduce bundle size
-    if (process.env.BUILD_TARGET === 'cloudflare' || process.env.CF_PAGES === '1') {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: false,
-        moduleIds: 'deterministic',
-        minimize: true,
-      };
-    }
-
     // Exclude better-sqlite3, D1, and Postgres modules from client-side bundle
     if (!isServer) {
       config.externals = config.externals || [];
@@ -104,11 +94,15 @@ const nextConfig = {
   },
 };
 
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development' || process.env.BUILD_TARGET === 'cloudflare' || process.env.CF_PAGES === '1',
-  register: true,
-  skipWaiting: true,
-});
+// Disable PWA for Cloudflare Pages to reduce build size
+const isCloudflare = process.env.BUILD_TARGET === 'cloudflare' || process.env.CF_PAGES === '1';
+const withPWA = isCloudflare 
+  ? (config) => config 
+  : require('next-pwa')({
+      dest: 'public',
+      disable: process.env.NODE_ENV === 'development',
+      register: true,
+      skipWaiting: true,
+    });
 
 module.exports = withPWA(nextConfig);

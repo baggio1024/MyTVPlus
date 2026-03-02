@@ -29,7 +29,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '20'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -78,21 +78,26 @@ jobs:
 
 
 
-      - name: Clean up large cache files before build
-        run: |
-          rm -rf .next/cache/webpack
-          rm -rf .next/static/cache
-          echo "Cache cleanup completed"
-
       - name: Build for Cloudflare
         run: pnpm run build:cloudflare
 
-      - name: Optimize build output
+      - name: Clean up large files
         run: |
-          # Remove any remaining large cache files
+          echo "Cleaning up large cache files..."
+          # Clean webpack cache from .next
+          rm -rf .next/cache/webpack 2>/dev/null || true
+          rm -rf .next/static/cache 2>/dev/null || true
           find .next -name "*.pack" -type f -delete 2>/dev/null || true
           find .next -name "0.pack" -type f -delete 2>/dev/null || true
-          echo "Build optimization completed"
+          # Clean PWA files from public directory
+          rm -f public/sw.js 2>/dev/null || true
+          rm -f public/sw.js.map 2>/dev/null || true
+          rm -f public/workbox-*.js 2>/dev/null || true
+          rm -f public/workbox-*.js.map 2>/dev/null || true
+          # Clean large files from .open-next/assets if they exist
+          find .open-next/assets -name "*.pack" -type f -delete 2>/dev/null || true
+          find .open-next/assets -name "0.pack" -type f -delete 2>/dev/null || true
+          echo "Cleanup completed"
 
       - name: Install Wrangler for D1 migrations
         run: pnpm add -g wrangler@4.60.0
@@ -116,7 +121,7 @@ jobs:
           for migration_file in ./migrations/*.sql; do
             if [ -f "$migration_file" ]; then
               echo "Executing migration: $(basename $migration_file)"
-              wrangler d1 execute moontvplus --remote --file="$migration_file" || echo "⚠️ Migration may have been skipped (already applied)"
+              wrangler d1 execute mytvplus --remote --file="$migration_file" || echo "⚠️ Migration may have been skipped (already applied)"
             fi
           done
 
@@ -131,5 +136,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: mytvplus
-          directory: .next
+          directory: .open-next/assets
           branch: main
