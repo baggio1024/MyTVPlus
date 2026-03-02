@@ -10,7 +10,11 @@ const config: OpenNextConfig = {
       tagCache: 'dummy',
       queue: 'dummy',
     },
+    // 减小包体积的关键配置
+    bundleFormat: 'esm',
+    minify: true,
   },
+  // 将更多依赖标记为 external，不打包进 Worker
   edgeExternals: [
     'node:crypto',
     'node:async_hooks',
@@ -36,20 +40,30 @@ const config: OpenNextConfig = {
     'node:punycode',
     'node:timers',
     'node:worker_threads',
+    // 数据库相关
     'better-sqlite3',
     '@vercel/postgres',
     'redis',
+    '@upstash/redis',
+    // 解析器
     'cheerio',
     'xml2js',
     'nodemailer',
-    'socket.io',
-    'socket.io-client',
+    // 视频播放器
     'hls.js',
     'flv.js',
     'mux.js',
     'anime4k-webgpu',
     'artplayer',
-    'artplayer-plugin-danmuku'
+    'artplayer-plugin-danmuku',
+    // Socket
+    'socket.io',
+    'socket.io-client',
+    // 其他大依赖
+    'framer-motion',
+    'swiper',
+    'react-markdown',
+    'remark-gfm',
   ],
   middleware: {
     external: true,
@@ -62,6 +76,11 @@ const config: OpenNextConfig = {
       queue: 'dummy',
     },
   },
+  // 代码分割配置
+  additionalExternalPackages: [
+    'next-pwa',
+    'workbox-*',
+  ],
 };
 
 export default config;

@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare
+name: Deploy to Vercel
 
 on:
   workflow_dispatch:
@@ -10,14 +10,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-  deployments: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy to Cloudflare Pages
+    name: Deploy to Vercel
 
     steps:
       - name: Checkout source code
@@ -37,8 +33,6 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "BUILD_TARGET=cloudflare" >> $GITHUB_ENV
-          echo "NODE_ENV=production" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_STORAGE_TYPE=${{ secrets.NEXT_PUBLIC_STORAGE_TYPE }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_SITE_NAME=${{ secrets.NEXT_PUBLIC_SITE_NAME }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_SEARCH_MAX_PAGE=${{ secrets.NEXT_PUBLIC_SEARCH_MAX_PAGE }}" >> $GITHUB_ENV
@@ -76,17 +70,14 @@ jobs:
           echo "WATCH_ROOM_EXTERNAL_SERVER_URL=${{ secrets.WATCH_ROOM_EXTERNAL_SERVER_URL }}" >> $GITHUB_ENV
           echo "WATCH_ROOM_SERVER_TYPE=${{ secrets.WATCH_ROOM_SERVER_TYPE }}" >> $GITHUB_ENV
 
+      - name: Build for Vercel
+        run: pnpm run build
 
-
-      - name: Build for Cloudflare
-        run: pnpm run build:cloudflare
-
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: mytvplus
-          directory: .vercel/output/static
-          wranglerConfig: wrangler.toml
-          branch: main
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
