@@ -95,7 +95,6 @@ const nextConfig = {
 };
 
 // Disable PWA for Cloudflare Pages to reduce build size
-const isCloudflare = process.env.BUILD_TARGET === 'cloudflare' || process.env.CF_PAGES === '1';
 const withPWA = isCloudflare 
   ? (config) => config 
   : require('next-pwa')({
