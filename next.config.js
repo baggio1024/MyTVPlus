@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 // 检测是否为 Cloudflare Pages 构建
-const isCloudflare = process.env.CF_PAGES === '1' || process.env.BUILD_TARGET === 'cloudflare';
+const isCloudflare =
+  process.env.CF_PAGES === '1' || process.env.BUILD_TARGET === 'cloudflare';
 
 const nextConfig = {
   // Cloudflare Pages 不支持 standalone，使用默认输出
@@ -78,6 +79,9 @@ const nextConfig = {
       net: false,
       tls: false,
       crypto: false,
+      http: false,
+      https: false,
+      zlib: false,
     };
 
     // Exclude better-sqlite3 and Postgres modules from client-side bundle
@@ -85,7 +89,7 @@ const nextConfig = {
       config.externals = config.externals || [];
       config.externals.push({
         'better-sqlite3': 'commonjs better-sqlite3',
-        'pg': 'commonjs pg',
+        pg: 'commonjs pg',
       });
 
       config.resolve.alias = {
@@ -105,10 +109,10 @@ const nextConfig = {
 const withPWA = isCloudflare
   ? (config) => config
   : require('next-pwa')({
-    dest: 'public',
-    disable: process.env.NODE_ENV === 'development',
-    register: true,
-    skipWaiting: true,
-  });
+      dest: 'public',
+      disable: process.env.NODE_ENV === 'development',
+      register: true,
+      skipWaiting: true,
+    });
 
 module.exports = withPWA(nextConfig);
