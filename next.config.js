@@ -80,12 +80,11 @@ const nextConfig = {
       crypto: false,
     };
 
-    // Exclude better-sqlite3, D1, and Postgres modules from client-side bundle
+    // Exclude better-sqlite3 and Postgres modules from client-side bundle
     if (!isServer) {
       config.externals = config.externals || [];
       config.externals.push({
         'better-sqlite3': 'commonjs better-sqlite3',
-        '@vercel/postgres': 'commonjs @vercel/postgres',
         'pg': 'commonjs pg',
       });
 
